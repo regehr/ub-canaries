@@ -3,7 +3,7 @@
 use strict;
 
 # specify these externally
-my @compilers = ("gcc-4.9", "clang");
+my @compilers = ("gcc", "gcc-4.8", "clang");
 my @opts = ("-O0", "-O1", "-O2", "-Os", "-O3");
 
 my @files = ();
@@ -14,11 +14,11 @@ while (my $line = <INF>) {
 }
 close INF;
 
-foreach my $file (@files) {
+foreach my $file (sort @files) {
     foreach my $compiler (@compilers) {
         foreach my $opt (@opts) {
             print "--- $compiler $opt $file ---\n";
-            system "$compiler $opt $file";
+            system "$compiler -w $opt $file";
             system "./a.out";
         }
     }
