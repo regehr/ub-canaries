@@ -1,0 +1,2 @@
+The expectation is that signed integer overflow has two's complement
+behavior.
