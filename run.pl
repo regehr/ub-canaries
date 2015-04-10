@@ -3,7 +3,7 @@
 use strict;
 
 # specify these externally
-my @compilers = ("gcc", "gcc-4.8", "clang");
+my @compilers = ("gcc", "gcc-4.8", "gcc-4.4", "clang");
 my @opts = ("-O0", "-O1", "-O2", "-Os", "-O3");
 
 my @files = ();

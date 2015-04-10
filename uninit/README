@@ -1,3 +1,2 @@
 The expectation is that reading an unitialized scalar value returns
-the same arbitrary but legal value every time.
-
+the same arbitrary but legal value every time it is read.
