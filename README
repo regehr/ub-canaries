@@ -1,9 +1,9 @@
----------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 UB Canaries: A collection of C/C++ programs that detect undefined
 behavior exploitation by compilers.
 
----------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Each directory documents and tests an expectation: something a developer might
 -- perhaps unreasonably! -- expect the compiler to do when faced with undefined
@@ -15,7 +15,7 @@ If any test program in a directory does not display the expected behavior (for a
 given compiler version + flags), then that compiler is considered to violate
 that expectation.
 
----------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Guidelines for writing tests:
 
@@ -27,5 +27,4 @@ Guidelines for writing tests:
   time. Each program should have at most a few outputs corresponding to the
   expected case; and other output should be considered unexpected.
 
----------------------------------------------------------------------------------
-
+-------------------------------------------------------------------------------
