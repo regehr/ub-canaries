@@ -1,0 +1,2 @@
+The expectation is that signed integer overflow has two's complement behavior,
+as GCC would behave when passed the -fwrapv command line flag.
