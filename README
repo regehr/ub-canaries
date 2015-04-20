@@ -15,6 +15,10 @@ If any test program in a directory does not display the expected behavior (for a
 given compiler version + flags), then that compiler is considered to violate
 that expectation.
 
+The toplevel script run.pl tests the expectations for a specified collection of
+compilers and compiler flags. For now, you need to edit that file to change the
+set of compilers and flags.
+
 -------------------------------------------------------------------------------
 
 Guidelines for writing tests:
@@ -26,5 +30,10 @@ Guidelines for writing tests:
   by looking at its assembly code or observing its memory usage or execution
   time. Each program should have at most a few outputs corresponding to the
   expected case; and other output should be considered unexpected.
+
+- A test program foo.c may have one or more outputs corresponding to the
+  "expected" case where the compiler does not exploit that UB. If there is
+  one such file it should be called foo.output. If there are multiple files
+  they should be called foo.output1, foo.output2, etc.
 
 -------------------------------------------------------------------------------
