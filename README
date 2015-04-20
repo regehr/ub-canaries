@@ -36,9 +36,9 @@ Guidelines for writing tests:
 - Each test program should be entirely contained (except for standard header
   files) in a single compilation unit.
 
-- An expectation should only be tested by looking at a program's standard
-  stdout, never by looking at its assembly code or observing its memory usage or
-  execution time.
+- An expectation should only be tested by looking at a program's stdout, never
+  by looking at its assembly code or observing its memory usage or execution
+  time.
 
 - A test program foo.c may have one or more outputs corresponding to the
   "expected" case where the compiler does not exploit that UB. If there is one
