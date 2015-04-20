@@ -20,10 +20,8 @@ die("Error in command line arguments")
     unless GetOptions("verbose=i" => \$verbose) && ! scalar(@ARGV);
 
 # TODO let people specify these w/o modifying this script
-#my @compilers = ("gcc", "gcc-4.4", "clang");
-#my @opts = ("-O0", "-O1", "-O2", "-Os", "-O3");
-my @compilers = ("gcc", "clang");
-my @opts = ("-O0", "-Ofast");
+my @compilers = ("gcc", "gcc-4.4", "clang");
+my @opts = ("-O0", "-O1", "-O2", "-Os", "-O3");
 
 # TODO support C++
 
@@ -39,7 +37,7 @@ foreach my $compiler (@compilers) {
             my @files = glob "$dir/*.c";
             print "no files found in '$dir'\n"
                 unless (scalar(@files)>0);
-            my $all_expected = 1;
+            my $any_unexpected = 0;
             foreach my $file (sort @files) {
                 print "\ntesting $compiler $opt using $file\n"
                     if ($verbose > 0);
@@ -53,22 +51,19 @@ foreach my $compiler (@compilers) {
                 my @expected_outputs = glob "$root.output*";
                 die "oops: no expected outputs for '$file'\n"
                     unless (scalar(@expected_outputs)>0);
-                my $expected = 0;
+                my $match = 0;
                 foreach my $fn (@expected_outputs) {
-                    my $same = (0 == File::Compare::compare($output, $fn));
-                    if (!$same && $verbose > 0) {
-                        print "for '$fn' expected:\n";
-                        print_file($fn);
-                        print "but got:\n";
-                        print_file($output);
-                    }
-                    $expected |= $same;
+                    $match |= (0 == File::Compare::compare($output, $fn));
                 }
+                if ($verbose > 0 && ! $match) {
+                    print "output from $compiler $opt on $file was unexpected:\n";
+                    print_file($output);
+                }
+                $any_unexpected |= ! $match;
                 unlink $output;
-                $all_expected &= $expected;
             }
             my $compiler_id = "$compiler $opt";
-            print "$compiler_id $dir $all_expected\n";
+            print "$compiler_id $dir $any_unexpected\n";
         }
         closedir $dh;
     }
