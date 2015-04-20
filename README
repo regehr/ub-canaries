@@ -19,6 +19,15 @@ The toplevel script run.pl tests the expectations for a specified collection of
 compilers and compiler flags. For now, you need to edit that file to change the
 set of compilers and flags.
 
+The output of run.pl is, for each compiler / flag / canary combination, a flag
+that tells us whether that compiler has been observed to exploit that particular
+UB. So here, for example, clang has been seen to exploit signed integer
+overflows and uninitialized variables, but not shifts into the sign bit:
+
+clang -O3 shift-into-sign-bit 0
+clang -O3 signed-integer-overflow 1
+clang -O3 uninitialized-variable 1
+
 -------------------------------------------------------------------------------
 
 Guidelines for writing tests:
