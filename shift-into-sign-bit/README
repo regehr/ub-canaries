@@ -1,0 +1,2 @@
+The expectation is that signed left shift works, at the bit level, the same as
+unsigned left shift.
