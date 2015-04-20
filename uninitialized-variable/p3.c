@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 void doit(void) {
-  int p;
+  int p = 2;
   if (p < 0)
     puts("p < 0");
   if (p > 0)

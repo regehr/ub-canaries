@@ -6,6 +6,15 @@ use File::Temp;
 use File::Compare;
 use Getopt::Long;
 
+sub print_file($) {
+    (my $fn) = @_;
+    open INF, "<$fn";
+    while (my $line = <INF>) {
+        print $line;
+    }
+    close INF;
+}
+
 my $verbose = 0;
 die("Error in command line arguments")
     unless GetOptions("verbose=i" => \$verbose) && ! scalar(@ARGV);
@@ -28,8 +37,12 @@ foreach my $compiler (@compilers) {
         my @dirs = grep {-d "./$_" && ! /^\./} readdir($dh);
         foreach my $dir (@dirs) {
             my @files = glob "$dir/*.c";
+            print "no files found in '$dir'\n"
+                unless (scalar(@files)>0);
             my $all_expected = 1;
             foreach my $file (sort @files) {
+                print "\ntesting $compiler $opt using $file\n"
+                    if ($verbose > 0);
                 die unless ($file =~ /(.*)\.c$/);
                 my $root = $1;
                 my $exe = tmpnam();
@@ -38,9 +51,18 @@ foreach my $compiler (@compilers) {
                 system "$exe > $output";
                 unlink $exe;
                 my @expected_outputs = glob "$root.output*";
+                die "oops: no expected outputs for '$file'\n"
+                    unless (scalar(@expected_outputs)>0);
                 my $expected = 0;
                 foreach my $fn (@expected_outputs) {
-                    $expected |= (0 == File::Compare::compare($output, $fn));
+                    my $same = (0 == File::Compare::compare($output, $fn));
+                    if (!$same && $verbose > 0) {
+                        print "for '$fn' expected:\n";
+                        print_file($fn);
+                        print "but got:\n";
+                        print_file($output);
+                    }
+                    $expected |= $same;
                 }
                 unlink $output;
                 $all_expected &= $expected;
@@ -48,5 +70,6 @@ foreach my $compiler (@compilers) {
             my $compiler_id = "$compiler $opt";
             print "$compiler_id $dir $all_expected\n";
         }
+        closedir $dh;
     }
 }
