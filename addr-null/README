@@ -1,0 +1,2 @@
+The expectation is that taking &foo->bar is safe and can be used as a
+replacement for offsetof even when foo is NULL.
