@@ -47,8 +47,8 @@ Guidelines for writing tests:
   match any of these files, the compiler is assumed to have exploited the UB.
 
 - Every test program must test only a single UB. In other words, each test
-  program is written in a dialect of C that is completely standard *expect* that
-  a single behavior (signed integer overflow or whateever) is actually defined
+  program is written in a dialect of C that is completely standard except that a
+  single behavior (signed integer overflow or whateever) is actually defined
   instead of undefined.
 
 - Reliance on implementation-defined behavior is unavoidable, but please avoid
