@@ -1,1 +1,1 @@
-If an attempt is made to modify an object defined with a const-qualified type through use of an lvalue with non-const-qualified type, the behavior is undefined. If an attempt is made to refer to an object defined with a volatile-qualified type through use of an lvalue with non-volatile-qualified type, the behavior is undefined.
+The expectation is that modifying variables through type casts that discard const or volatile actually modify those variables.
