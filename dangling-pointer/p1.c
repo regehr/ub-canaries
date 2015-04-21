@@ -25,8 +25,8 @@ int main(int argc, char *argv[]) {
   if (p != q) {
     sprintf(s1, "%p", (void *)p);
     sprintf(s2, "%p", (void *)q);
-    sprintf(s3, "%"PRIxPTR, (uintptr_t)p);
-    sprintf(s4, "%"PRIxPTR, (uintptr_t)q);
+    sprintf(s3, "%" PRIxPTR, (uintptr_t)p);
+    sprintf(s4, "%" PRIxPTR, (uintptr_t)q);
     if (strcmp(s1, s2) == 0 || strcmp(s3, s4) == 0)
       printf("We have entered the twilight zone\n");
   }

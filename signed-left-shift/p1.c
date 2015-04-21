@@ -2,13 +2,8 @@
 #include <limits.h>
 
 void check(int x, int y) {
-  printf("%d%d%d%d%d%d",
-         (x<<y) < 0,
-         (x<<y) == 0,
-         (x<<y) > 0,
-         (x<<y) < x,
-         (x<<y) == x,
-         (x<<y) > x);
+  printf("%d%d%d%d%d%d", (x << y) < 0, (x << y) == 0, (x << y) > 0,
+         (x << y) < x, (x << y) == x, (x << y) > x);
 }
 
 void test(int i) {
@@ -26,7 +21,7 @@ void test(int i) {
 int main(void) {
   int bits = sizeof(int) * CHAR_BIT;
   int i;
-  for (i=0; i<bits; i++)
+  for (i = 0; i < bits; i++)
     test(i);
   return 0;
 }
