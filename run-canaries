@@ -76,7 +76,7 @@ foreach my $compiler (@compilers) {
                 my $exe = tmpnam();
                 system "$compiler -w $opt $test -o $exe";
                 my $output = tmpnam();
-                system "$exe > $output";
+                system "$exe > $output 2>/dev/null";
                 unlink $exe;
                 my @expected_outputs = glob "${test_root}.output*";
                 die "oops: found zero expected outputs for '$test'"
