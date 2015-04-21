@@ -1,0 +1,1 @@
+The expectation is that modifying variables through type casts that discard const or volatile actually modify those variables.
