@@ -1,0 +1,1 @@
+The assumption is that reading one element past the end of an array is OK.
