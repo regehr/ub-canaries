@@ -1,0 +1,2 @@
+The assumption is that pointer values, even after they become dangling, still
+behave in a mathematically consistent fashion.
