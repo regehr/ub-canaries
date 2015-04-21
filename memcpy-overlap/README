@@ -1,0 +1,2 @@
+The assumption is that memcpy() behaves as memmove() for purposes of overlapping
+memory areas.
