@@ -1,0 +1,4 @@
+The assumption is that it's OK to shift an integer by its bitwidth and the
+result is 0. Many crypto libraries have made this assumption:
+
+  http://blog.regehr.org/archives/1054
