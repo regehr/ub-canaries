@@ -1,0 +1,4 @@
+The assumption is that string literals can be modified as if they were malloc'ed
+storage into which the string had been copied, or as if gcc had been invoked
+with the -fwritable-strings option.
+
