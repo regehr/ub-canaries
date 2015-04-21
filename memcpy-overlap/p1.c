@@ -13,7 +13,8 @@ uint64_t rand_xorshift(void) {
 }
 
 int min(int x, int y) {
-  if (x<y) return x;
+  if (x < y)
+    return x;
   return y;
 }
 
@@ -24,16 +25,16 @@ int main(void) {
   s[1] = 777;
   unsigned char buf[SIZE];
   int i;
-  for (i=0; i<SIZE; i++)
+  for (i = 0; i < SIZE; i++)
     buf[i] = i;
-  for (i=0; i<1000; i++) {
+  for (i = 0; i < 1000; i++) {
     int src = rand_xorshift() % SIZE;
     int dst = rand_xorshift() % SIZE;
     int len = rand_xorshift() % SIZE;
-    len = min(len, SIZE-src);
-    len = min(len, SIZE-dst);
-    memcpy(buf+dst, buf+src, len);
+    len = min(len, SIZE - src);
+    len = min(len, SIZE - dst);
+    memcpy(buf + dst, buf + src, len);
   }
-  for (i=0; i<SIZE; i++)
+  for (i = 0; i < SIZE; i++)
     printf("%d ", buf[i]);
 }
