@@ -19,15 +19,16 @@ If any test program in a directory does not display the expected behavior (for a
 given compiler version + flags), then that compiler is considered to violate
 that expectation.
 
-The toplevel script run.pl tests the expectations for a specified collection of
-compilers and compiler flags. For now, you need to edit that file to change the
-set of compilers and flags.
+The toplevel script run-canaries tests the expectations for a
+specified collection of compilers and compiler flags. For now, you
+need to edit that file to change the set of compilers and flags.
 
-The output of run.pl is, for each compiler / flag / canary combination, a bit
-that tells us whether that compiler has been observed to exploit that particular
-UB (in other words, whether it has been observed violating the expectation). So
-here, for example, clang has been seen to exploit signed integer overflows and
-uninitialized variables, but not signed left shifts:
+The output of run-canaries is, for each compiler / flag / canary
+combination, a bit that tells us whether that compiler has been
+observed to exploit that particular UB (in other words, whether it has
+been observed violating the expectation). So here, for example, clang
+has been seen to exploit signed integer overflows and uninitialized
+variables, but not signed left shifts:
 
 clang -O3 signed-left-shift 0
 clang -O3 signed-integer-overflow 1
@@ -52,11 +53,11 @@ Guidelines for writing tests:
 
 - Every test program must test only a single UB. In other words, each test
   program is written in a dialect of C that is completely standard except that a
-  single behavior (signed integer overflow or whateever) is actually defined
+  single behavior (signed integer overflow or whatever) is actually defined
   instead of undefined.
 
 - Reliance on implementation-defined behavior is unavoidable, but please avoid
-  gratutious reliance such as assuming a particular size for int or long. It is
+  gratuitous reliance such as assuming a particular size for int or long. It is
   OK to use the fixed-width types such as int32_t.
 
 - A tricky issue to how much to expose to the optimizer and how much to hide.
