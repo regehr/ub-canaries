@@ -7,6 +7,12 @@ behavior exploitation by compilers.
 
 To run all tests, type:
 
+  run-canaries
+
+For a complete list of command line options:
+
+  run-canaries --help
+
 -------------------------------------------------------------------------------
 
 Each directory documents and tests an expectation: something a developer might
