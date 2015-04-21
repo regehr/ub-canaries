@@ -15,6 +15,13 @@ sub print_file($) {
     close INF;
 }
 
+sub runit ($) {
+    my $cmd = shift;
+    my $res = (system "$cmd");
+    my $exit_value  = $? >> 8;
+    die "stopping because '$cmd' failed" unless ($exit_value == 0);
+}
+
 sub usage() {
     print <<EOF;
 Usage:
@@ -74,9 +81,9 @@ foreach my $compiler (@compilers) {
                 die unless ($test =~ /(.*)\.c$/);
                 my $test_root = $1;
                 my $exe = tmpnam();
-                system "$compiler -w $opt $test -o $exe";
+                runit("$compiler -w $opt $test -o $exe");
                 my $output = tmpnam();
-                system "$exe > $output 2>/dev/null";
+                system("$exe > $output 2>/dev/null");
                 unlink $exe;
                 my @expected_outputs = glob "${test_root}.output*";
                 die "oops: found zero expected outputs for '$test'"
