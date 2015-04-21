@@ -1,0 +1,2 @@
+The expectation is that the compiler fails to exploit strict aliasing, and
+instead acts like a C89 compiler or like "gcc -fno-strict-aliasing".

@@ -5,6 +5,10 @@ behavior exploitation by compilers.
 
 -------------------------------------------------------------------------------
 
+To run all tests, type:
+
+-------------------------------------------------------------------------------
+
 Each directory documents and tests an expectation: something a developer might
 -- perhaps unreasonably! -- expect the compiler to do when faced with undefined
 behavior. For example, the "uninitialized-variable" directory tests the
@@ -52,6 +56,15 @@ Guidelines for writing tests:
   instead of undefined.
 
 - Reliance on implementation-defined behavior is unavoidable, but please avoid
-  gratutious reliance such as assuming a particular size for int or long.
+  gratutious reliance such as assuming a particular size for int or long. It is
+  OK to use the fixed-width types such as int32_t.
+
+- A tricky issue to how much to expose to the optimizer and how much to hide.
+  There are no particular good rules of thumb that I am aware of, you just have
+  to try different things.
+
+- An easier issue is *how* to hide from the optimizer. I suggest introducing a
+  dependency on argc or on the value loaded from a volatile. Tests may assume
+  that argc == 1.
 
 -------------------------------------------------------------------------------

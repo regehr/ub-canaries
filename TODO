@@ -1,8 +1,6 @@
 Add canaries for:
-
 - values of padding bytes preserved
 - overlapping memcpy
-- strict aliasing
 - modification of string literals
 - multiple updates to lval
 - ordering of crash and printout

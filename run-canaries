@@ -1,0 +1,102 @@
+#!/usr/bin/perl -w
+
+use strict;
+use IPC::Cmd;
+use File::Temp;
+use File::Compare;
+use Getopt::Long;
+
+sub print_file($) {
+    (my $fn) = @_;
+    open INF, "<$fn";
+    while (my $line = <INF>) {
+        print $line;
+    }
+    close INF;
+}
+
+sub usage() {
+    print <<EOF;
+Usage:
+--verbose         Be verbose
+--concise         Print a per-compiler summary rather than showing the
+                  behavior of each compiler + option combination
+--only=dir1,...   Only run tests in the specified directories
+EOF
+    exit(-1);
+}
+
+my $verbose = 0;
+my $concise = 0;
+my $help = 0;
+my @only = ();
+
+usage() unless GetOptions(
+    "verbose" => \$verbose,
+    "concise" => \$concise,
+    "help" => \$help,
+    "only=s" => \@only,
+    ) && ! scalar(@ARGV);
+usage() if $help;
+
+# TODO let people specify these w/o modifying this script
+my @compilers = ("gcc", "gcc-4.4", "clang");
+my @opts = ("-O0", "-O1", "-O2", "-Os", "-O3");
+
+# TODO support C++
+
+my @dirs;
+if (scalar(@only)>0) {
+    @dirs = @only;
+} else {
+    opendir my $dh, "." or die "$0: opendir: $!";
+    @dirs = grep {-d "./$_" && ! /^\./} readdir($dh);
+    closedir $dh;
+}
+
+foreach my $compiler (@compilers) {
+    if (! IPC::Cmd::can_run($compiler)) {
+        print "can't run '$compiler', so skipping it\n";
+        next;
+    }
+    foreach my $dir (@dirs) {
+        if (! -d $dir) {
+            print "can't find '$dir', so skipping it\n";
+            next;
+        }
+        my $compiler_unexpected = 0;
+        foreach my $opt (@opts) {
+            my @tests = glob "$dir/*.c";
+            print "no tests found in '$dir'\n"
+                unless (scalar(@tests) > 0);
+            my $dir_unexpected = 0;
+            foreach my $test (sort @tests) {
+                die unless ($test =~ /(.*)\.c$/);
+                my $test_root = $1;
+                my $exe = tmpnam();
+                system "$compiler -w $opt $test -o $exe";
+                my $output = tmpnam();
+                system "$exe > $output";
+                unlink $exe;
+                my @expected_outputs = glob "${test_root}.output*";
+                die "oops: found zero expected outputs for '$test'"
+                    unless (scalar(@expected_outputs) > 0);
+                my $match = 0;
+                foreach my $fn (@expected_outputs) {
+                    $match |= (0 == File::Compare::compare($output, $fn));
+                }
+                if ($verbose > 0 && ! $match) {
+                    print "output from $compiler $opt on $test was unexpected:\n";
+                    print_file($output);
+                }
+                $dir_unexpected |= ! $match;
+                unlink $output;
+            }
+            print "$compiler $opt $dir $dir_unexpected\n"
+                unless $concise;
+            $compiler_unexpected |= $dir_unexpected;
+        }
+        print "$compiler $dir $compiler_unexpected\n"
+            if $concise;
+    }
+}
