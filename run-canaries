@@ -40,7 +40,7 @@ usage() unless GetOptions(
 usage() if $help;
 
 # TODO let people specify these w/o modifying this script
-my @compilers = ("gcc", "gcc-4.4", "clang");
+my @compilers = ("gcc", "gcc-4.4", "gcc-4.9", "clang");
 my @opts = ("-O0", "-O1", "-O2", "-Os", "-O3");
 
 # TODO support C++
