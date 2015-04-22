@@ -1,4 +1,6 @@
 Add canaries for:
-- values of padding bytes preserved
 - multiple updates to lval
-- ordering of crash and printout
+- ordering of crashing UB and printf
+- termination of infinite loops (not sure how to fit that in the framework)
+- values of padding bytes preserved (unspecified, not UB, I think)
+- order of eval of function arguments (unspecifie, but who cares)
