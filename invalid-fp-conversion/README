@@ -1,0 +1,3 @@
+The expectation is that the result of a conversion of a floating-point value
+that cannot be represented in the destination type returns the same arbitrary
+but legal value every time it is read.
