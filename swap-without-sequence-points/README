@@ -1,0 +1,4 @@
+The expectation is that the code swaps the two values. GCC and LLVM
+warn about lack of sequencing but emit the code the programmer
+expected, whereas the IBM compiler (allegedly) emits code doing something
+different.
